@@ -1,0 +1,4 @@
+brightway2
+docopt
+flask
+pandas

@@ -1,0 +1,61 @@
+{% include 'header.html' %}
+<div class="container">
+  <div class="row" style="margin-top: 5%">
+    <div>
+      <h4>Ecoinvent activity: {{ act['name'] }}</h4>
+      <ul>
+        <li>Product: {{ act['reference product'] }}</li>
+        <li>Unit: {{ act['unit'] }}</li>
+        <li>Location: {{ act['location'] }}</li>
+        <li>Brightway code: {{ act['code'] }}</li>
+      </ul>
+      <p><a href="/">Home</a></p>
+      <div>
+        <h5>Inputs:</h5>
+        <div id="inputs"></div>
+      </div>
+      <div>
+        <h5>Outputs:</h5>
+        <div id="outputs"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/tabulator.min.js') }}"></script>
+<script type="text/javascript">
+
+var inputtabledata = {{ inputdata|tojson }};
+var outputtabledata = {{ outputdata|tojson }};
+
+var table = new Tabulator("#inputs", {
+    data:inputtabledata,
+    paginationSize:50,
+    pagination:"local",
+    columns:[
+        {title:"Exchange amount", field:"amount", sorter:"number"},
+        {title:"Unit", field:"unit", sorter:"string"},
+        {title:"Type", field:"type", sorter:"string"},
+        {title:"Carbon (kg)", field:"carbon", sorter:"number"},
+        {title:"Name", field: "name", sorter:"string", formatter:"link", formatterParams:{urlField: "url"}},
+        {title:"Location", field:"location", sorter:"string"},
+    ]
+});
+
+var table = new Tabulator("#outputs", {
+    data:outputtabledata,
+    paginationSize:50,
+    pagination:"local",
+    columns:[
+        {title:"Exchange amount", field:"amount", sorter:"number"},
+        {title:"Unit", field:"unit", sorter:"string"},
+        {title:"Type", field:"type", sorter:"string"},
+        {title:"Carbon (kg)", field:"carbon", sorter:"number"},
+        {title:"Name", field: "name", sorter:"string", formatter:"link", formatterParams:{urlField: "url"}},
+        {title:"Location", field:"location", sorter:"string"},
+    ]
+});
+
+</script>
+
+{% include 'footer.html' %}
